@@ -85,29 +85,27 @@ export const logout = async (req,res) => {
 }
 
 export const updateProfile = async (req,res)=>{
-
   try {
     const {fullname,email,phonenumber, bio, skills} = req.body;
-    if(!fullname || !email || !phonenumber || !bio || !skills){
-      return res.status(400).json({message:'Something is Missing', success:false});
-    }
 
-    const skillsArray = skills.split(',');
+    let skillsArray
+    if(skills) {
+      skillsArray = skills.split(',');
+    }
     const userId = req.id;
-    let user = await User.findById({userId});
+    let user = await User.findById(userId);
     if(!user){
       return res.status(400).json({message:'User not found', success:false});
     }
 
     // update data
-    user.fullname = fullname
-    user.email = email
-    user.phonenumber = phonenumber
-    user.bio = bio
-    user.skills = skillsArray
+    if(fullname) user.fullname = fullname
+    if(email) user.email = email
+    if(phonenumber) user.phonenumber = phonenumber
+    if(bio) user.bio = bio
+    if(skillsArray) user.skills = skillsArray
 
     await user.save();
-
     user = {
       _id:user._id,
       fullname:user.fullname,
@@ -116,7 +114,6 @@ export const updateProfile = async (req,res)=>{
       role:user.role,
       profile:user.profile
     }
-
     return res.status(200).json({message:'User Update Successfully', user, success:true});
   } catch (error) {
     
