@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../models/user.model";
+import User from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
 
 export const register = async(req,res) => {
@@ -8,7 +8,8 @@ export const register = async(req,res) => {
     if(!fullname || !email || !phonenumber || !password || !role){
       return res.status(400).json({message:'Something is Missing', success:false});
     }
-    let isExist  = await User.find({email});
+    let isExist  = await User.findOne({email});
+    console.log(isExist)
     if(isExist){
       return res.status(400).json({message:'Account already exist with this email', success:false});
     }
@@ -33,7 +34,7 @@ export const login = async (req,res) => {
     if(!email || !password || !role){
       return res.status(400).json({message:'Something is Missing', success:false});
     }
-    const isExist = await User.findOne({email});
+    let isExist = await User.findOne({email});
     if(!isExist){
       return res.status(400).json({message:'Incorrect Email or Password', success:false});
     }
@@ -81,4 +82,44 @@ export const logout = async (req,res) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+export const updateProfile = async (req,res)=>{
+
+  try {
+    const {fullname,email,phonenumber, bio, skills} = req.body;
+    if(!fullname || !email || !phonenumber || !bio || !skills){
+      return res.status(400).json({message:'Something is Missing', success:false});
+    }
+
+    const skillsArray = skills.split(',');
+    const userId = req.id;
+    let user = await User.findById({userId});
+    if(!user){
+      return res.status(400).json({message:'User not found', success:false});
+    }
+
+    // update data
+    user.fullname = fullname
+    user.email = email
+    user.phonenumber = phonenumber
+    user.bio = bio
+    user.skills = skillsArray
+
+    await user.save();
+
+    user = {
+      _id:user._id,
+      fullname:user.fullname,
+      email:user.email,
+      phonenumber:user.phonenumber,
+      role:user.role,
+      profile:user.profile
+    }
+
+    return res.status(200).json({message:'User Update Successfully', user, success:true});
+  } catch (error) {
+    
+  }
+
 }
