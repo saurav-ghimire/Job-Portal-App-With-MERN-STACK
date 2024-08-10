@@ -24,3 +24,11 @@ export const postJob = async (req,res) => {
     console.log(error)
   }
 }
+export const getAllJobs = async(req,res)=> {
+  try {
+    const jobs = await Jobs.find();
+    return res.status(200).json({jobs, success:true});
+  } catch (error) {
+    console.log(error)
+  }
+}
