@@ -86,3 +86,23 @@ export const updateCompany =async(req,res)=>{
     console.log(error);
   }
 }
+
+
+export const deleteCompany = async (req,res) => {
+  try {
+    const companyId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(companyId)) {
+      return res.status(400).json({ message: 'Invalid Company ID', success: false });
+    }
+    const isExist = await Company.findById(companyId);
+    if(!isExist){
+      return res.status(404).json({message:'Company Not Found', success:false});
+    }
+    await Company.findByIdAndDelete(companyId);
+    return res.status(201).json({message:'Company Successfully Deleted', success:true});
+    
+
+  } catch (error) {
+    console.log(error);
+  }
+}
