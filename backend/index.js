@@ -4,6 +4,8 @@ import cors from 'cors'
 const app = express();
 import dotenv from 'dotenv'
 import connectDB from './utils/db.js';
+import userRouter from './routes/user.route.js';
+
 dotenv.config({});
 
 connectDB()
@@ -18,6 +20,7 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 
+app.use('/auth', userRouter)
 app.get('/', (req,res) => {
   return res.json({
     success : true,
