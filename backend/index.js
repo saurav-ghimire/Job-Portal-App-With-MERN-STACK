@@ -5,6 +5,7 @@ const app = express();
 import dotenv from 'dotenv'
 import connectDB from './utils/db.js';
 import userRouter from './routes/user.route.js';
+import companyRouter from './routes/company.route.js';
 
 dotenv.config({});
 
@@ -17,10 +18,13 @@ app.use(cookieParser());
 const corsOptions = {
     origin:'http://localhost:3000/',
     credentials:true
-}
-app.use(cors(corsOptions))
+};
 
-app.use('/auth', userRouter)
+app.use(cors(corsOptions));
+
+app.use('/auth', userRouter);
+app.use('/company', companyRouter);
+
 app.get('/', (req,res) => {
   return res.json({
     success : true,
