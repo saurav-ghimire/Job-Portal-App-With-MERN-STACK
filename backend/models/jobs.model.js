@@ -9,11 +9,11 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required:true
   },
-  requirements : [{
-    type: [{
-      type:String
-    }]
-  }],
+  requirements :[
+    {
+      type: String, // Directly use an array of strings
+    },
+  ],
   salary : {
     type: Number,
     required:true
