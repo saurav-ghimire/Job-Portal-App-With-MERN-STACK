@@ -12,7 +12,7 @@ export const postJob = async (req,res) => {
     const job = await Jobs.create({
       title,
       description,
-      requirements : requirements ? requirements.split(',') : "",
+      requirements: typeof requirements === 'string' ? requirements.split(',') : requirements || [],
       salary: Number(salary),
       location,
       jobType,
