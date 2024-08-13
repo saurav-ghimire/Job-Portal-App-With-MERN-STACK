@@ -34,3 +34,25 @@ export const applyJobs = async (req, res) => {
     console.log(error)
   }
 }
+
+export const getAllAppliedJobs = async (req, res) => {
+  try {
+    const userId = req.id;
+    if (!userId) {
+      return res.status(404).json({ message: 'User ID Not Found', success: false });
+    }
+    const jobs = await Application.find({ applicants: userId }).sort({ createdAt: -1 }).populate({
+      path: 'job',
+      options: { sort: { createdAt: - 1 } },
+      populate: {
+        path: 'companyId'
+      }
+    });
+    if (!jobs) {
+      return res.status(404).json({ message: 'No Application', success: false });
+    }
+    return res.status(200).json({ jobs, success: true });
+  } catch (error) {
+    console.log(error)
+  }
+}
