@@ -1,7 +1,7 @@
-import Application from "../models/application.model"
-import Jobs from "../models/jobs.model"
+import Application from "../models/application.model.js"
+import Jobs from "../models/jobs.model.js"
 
-export const applyJobs = async (req, res) => {
+export const applyJob = async (req, res) => {
   try {
     const userId = req.id;
     const jobId = req.params.id;
@@ -80,26 +80,30 @@ export const getApplicant = async (req, res) => {
   }
 }
 
-// update status
+// updateStatus function
 export const updateStatus = async (req, res) => {
   try {
     const { status } = req.body;
-    const applicationId = req.params.id
-    if (!status) {
-      return res.status(404).json({ message: 'Status Not Found', success: false })
+    const applicationId = req.params.id;
+
+    // Validate status value
+    if (!['pending', 'accepted', 'rejected'].includes(status.toLowerCase())) {
+      return res.status(400).json({ message: 'Invalid status value', success: false });
     }
-    const application = await Application.findOne({ _id: applicationId });
+
+    // Find the application
+    const application = await Application.findById(applicationId);
     if (!application) {
-      return res.status(404).json({ message: 'Application Not Found', success: false })
+      return res.status(404).json({ message: 'Application Not Found', success: false });
     }
 
-    // update the status
-
-    application.status = status.toLowerCase();
+    // Update status and save
+    application.status = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
     await application.save();
 
     return res.status(200).json({ success: true, message: 'Status Updated Successfully' });
   } catch (error) {
-
+    console.log('Error', error);
+    return res.status(500).json({ message: 'Server Error', success: false });
   }
 }

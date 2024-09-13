@@ -12,10 +12,10 @@ const applicationSchema = new mongoose.Schema({
     required: true
   },
   status: {
-    type: "String",
-    enum: ['Pending, Accepted, Rejected'],
+    type: String,
+    enum: ['Pending', 'Accepted', 'Rejected'], // Separate values correctly
     default: 'Pending',
-    required: true
+    required: true,
   }
 }, { timestamps: true });
 
