@@ -80,3 +80,26 @@ export const getApplicant = async (req, res) => {
   }
 }
 
+// update status
+export const updateStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+    const applicationId = req.params.id
+    if (!status) {
+      return res.status(404).json({ message: 'Status Not Found', success: false })
+    }
+    const application = await Application.findOne({ _id: applicationId });
+    if (!application) {
+      return res.status(404).json({ message: 'Application Not Found', success: false })
+    }
+
+    // update the status
+
+    application.status = status.toLowerCase();
+    await application.save();
+
+    return res.status(200).json({ success: true, message: 'Status Updated Successfully' });
+  } catch (error) {
+
+  }
+}
