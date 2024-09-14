@@ -5,11 +5,13 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { LogOut, User2 } from "lucide-react";
 
 
 function Header() {
   return (
-    <div className="flex justify-between items-center px-20 py-5">
+    <div className="flex justify-between items-center py-5 w-[85%] m-auto">
       <div className="logo font-[900] text-black text-[25px]">
         Job<span className="text-red-500	">Portal</span>
       </div>
@@ -29,7 +31,28 @@ function Header() {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </PopoverTrigger>
-            <PopoverContent>Place content for the popover here.</PopoverContent>
+            <PopoverContent className='w-60'>
+              <div className="flex gap-3 mb-3">
+                <Avatar className='cursor-pointer'>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h4 className="font-medium">Saurav Ghimire</h4>
+                  <p className="text-sm text-muted-foreground">Full Stack Software Developer</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1 items-start">
+                <div className="flex items-center">
+                  <User2 />
+                  <Button variant="link" >View Profile</Button>
+                </div>
+                <div className="flex items-center">
+                  <LogOut />
+                  <Button variant="link" >Logout</Button>
+                </div>
+              </div>
+            </PopoverContent>
           </Popover>
         </div>
       </div>
