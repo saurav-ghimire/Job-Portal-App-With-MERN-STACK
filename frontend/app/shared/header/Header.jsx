@@ -4,6 +4,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 
 function Header() {
@@ -12,7 +13,7 @@ function Header() {
       <div className="logo font-[900] text-black text-[25px]">
         Job<span className="text-red-500	">Portal</span>
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-10 items-center">
         <ul>
           <li className="font-bold flex gap-4">
             <Link href="/">Home</Link>
@@ -22,7 +23,12 @@ function Header() {
         </ul>
         <div>
           <Popover>
-            <PopoverTrigger>Open</PopoverTrigger>
+            <PopoverTrigger>
+              <Avatar className='cursor-pointer'>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </PopoverTrigger>
             <PopoverContent>Place content for the popover here.</PopoverContent>
           </Popover>
         </div>
