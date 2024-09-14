@@ -18,8 +18,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <Header />
-        {children}
+        <div className='overflow-hidden'>
+          <Header />
+          <div className='w-[85%] m-auto'>
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );
