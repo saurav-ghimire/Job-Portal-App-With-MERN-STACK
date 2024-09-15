@@ -7,6 +7,7 @@ export const metadata = {
 };
 
 import { Roboto } from 'next/font/google'
+import { Toaster } from "@/components/ui/sonner"
 
 const roboto = Roboto({
   weight: ['400', '500', '700', '900'], // Update weights to available options
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
           <div className='w-[85%] m-auto'>
             {children}
           </div>
+          <Toaster />
         </div>
       </body>
     </html>
